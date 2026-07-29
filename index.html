@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bulldog Pickup Scanner</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      background: white;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Bulldog Pickup</h1>
+  <p>Point the camera at a family QR code.</p>
+
+  <div id="reader"></div>
+  <div id="message">Starting camera...</div>
+
+  <script>
+    const message = document.getElementById("message");
+
+    function onScanSuccess(decodedText) {
+      message.textContent = "Scanned: " + decodedText;
+
+      if (navigator.vibrate) {
+        navigator.vibrate(200);
+      }
+    }
+
+    function onScanFailure() {
+      // Nothing needed here.
+    }
+
+    const scanner = new Html5QrcodeScanner(
+      "reader",
+      {
+        fps: 10,
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+      false
+    );
+
+    scanner.render(onScanSuccess, onScanFailure);
+  </script>
+
+</body>
+</html>
